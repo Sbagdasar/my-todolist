@@ -22,9 +22,16 @@ function App() {
     const removeTask = (taskId: number) => {
         setTasks([...tasks.filter(t => t.id !== taskId)])
     }
+    const changeFilter = (filter:FilterValueType)=>{
+        setFilter(filter)
+    }
     return (
         <div className="App">
-            <Todolist title={'What to learn'} tasks={tasks} removeTask={removeTask}/>
+            <Todolist title={'What to learn'}
+                      tasks={tasksForTodolist}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+            />
         </div>
     );
 }
