@@ -13,6 +13,7 @@ type TodolistPropsType = {
     addTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
     changeFilter: (filter: FilterValueType) => void
+    filter: FilterValueType
 }
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const [title, setTitle] = useState<string>('')
@@ -62,7 +63,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                             const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                                 props.changeTaskStatus(t.id, e.currentTarget.checked)
                             }
-                            return (<li key={t.id}>
+                            return (<li key={t.id} className={t.isDone ? 'is-done' : ''}>
                                 <input type="checkbox" checked={t.isDone} onChange={onChangeStatusHandler}/>
                                 <span>{t.title}</span>
                                 <button onClick={removeTaskHandler}>X</button>
@@ -72,12 +73,15 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 }
             </ul>
             <div>
-                <button onClick={allFilterHandler}>All</button>
-                <button onClick={activeFilterHandler}>Active</button>
-                <button onClick={completedFilterHandler}>Completed</button>
+                <button onClick={allFilterHandler} className={props.filter === 'all' ? 'active-filter' : ''}>All
+                </button>
+                <button onClick={activeFilterHandler}
+                        className={props.filter === 'active' ? 'active-filter' : ''}>Active
+                </button>
+                <button onClick={completedFilterHandler}
+                        className={props.filter === 'completed' ? 'active-filter' : ''}>Completed
+                </button>
             </div>
         </div>
     );
 };
-
-//.active-filter
