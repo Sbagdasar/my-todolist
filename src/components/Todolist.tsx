@@ -16,7 +16,7 @@ type TodolistPropsType = {
 }
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const [title, setTitle] = useState<string>('')
-    const [error, setError] = useState<null|string>(null)
+    const [error, setError] = useState<null | string>(null)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
@@ -31,11 +31,16 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         if (trimmedTitle !== '') {
             props.addTask(trimmedTitle)
             setTitle('')
-        }else {
+        } else {
             setError('Title is required')
         }
 
     }
+
+    const allFilterHandler = () => props.changeFilter('all')
+    const activeFilterHandler = () => props.changeFilter('active')
+    const completedFilterHandler = () => props.changeFilter('completed')
+
     return (
         <div>
             <h3>{props.title}</h3>
@@ -43,7 +48,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 <div>
                     <input value={title}
                            onChange={onChangeHandler}
-                           onKeyUp={onKeyUpHandler} className={error?'error':''}/>
+                           onKeyUp={onKeyUpHandler} className={error ? 'error' : ''}/>
                     <button onClick={addTaskHandler}>+</button>
                 </div>
                 {error && <span className={'error-message'}>{error}</span>}
@@ -67,9 +72,9 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 }
             </ul>
             <div>
-                <button onClick={() => props.changeFilter('all')}>All</button>
-                <button onClick={() => props.changeFilter('active')}>Active</button>
-                <button onClick={() => props.changeFilter('completed')}>Completed</button>
+                <button onClick={allFilterHandler}>All</button>
+                <button onClick={activeFilterHandler}>Active</button>
+                <button onClick={completedFilterHandler}>Completed</button>
             </div>
         </div>
     );
