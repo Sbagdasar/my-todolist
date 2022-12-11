@@ -16,10 +16,12 @@ type TodolistPropsType = {
 }
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const [title, setTitle] = useState<string>('')
+    const [error, setError] = useState<null|string>(null)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null)
         if (e.key === 'Enter') {
             addTaskHandler()
         }
@@ -29,6 +31,8 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         if (trimmedTitle !== '') {
             props.addTask(trimmedTitle)
             setTitle('')
+        }else {
+            setError('Title is required')
         }
 
     }
@@ -36,8 +40,13 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={title} onChange={onChangeHandler} onKeyUp={onKeyUpHandler}/>
-                <button onClick={addTaskHandler}>+</button>
+                <div>
+                    <input value={title}
+                           onChange={onChangeHandler}
+                           onKeyUp={onKeyUpHandler} className={error?'error':''}/>
+                    <button onClick={addTaskHandler}>+</button>
+                </div>
+                {error && <span className={'error-message'}>{error}</span>}
             </div>
             <ul>
                 {
@@ -66,3 +75,4 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     );
 };
 
+//.active-filter
